@@ -1,0 +1,25 @@
+<div class="modal-overlay" *ngIf="foodTruck.ingredientsOpen()">
+  <div class="modal-box">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Ingredientes</h2>
+      <button type="button" class="close-btn" aria-label="Fechar" (click)="fechar()">×</button>
+    </div>
+
+    <p *ngIf="foodTruck.selectedProduct()">
+      Escolha os ingredientes que deseja retirar de <strong>{{ foodTruck.selectedProduct()?.name }}</strong>.
+    </p>
+
+    <ul class="list-group" *ngIf="foodTruck.selectedProduct()">
+      <li class="list-group-item" *ngFor="let ingrediente of foodTruck.selectedProduct()?.ingredients">
+        <label class="d-flex align-items-center gap-2">
+          <input type="checkbox"
+            [checked]="foodTruck.removedIngredients().includes(ingrediente)"
+            (change)="selecionarIngrediente(ingrediente, $event)">
+          Sem {{ ingrediente }}
+        </label>
+      </li>
+    </ul>
+
+    <button type="button" class="btn confirm-btn w-100 mt-3" (click)="confirmar()">Confirmar</button>
+  </div>
+</div>

@@ -1,0 +1,31 @@
+<div class="cart-modal" *ngIf="foodTruck.cartOpen()">
+  <div class="cart-content">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Seu Carrinho</h2>
+      <button type="button" class="close-btn" aria-label="Fechar" (click)="fecharCarrinho()">×</button>
+    </div>
+
+    <p *ngIf="itens.length === 0">Seu carrinho está vazio.</p>
+
+    <div id="cart-items">
+      <div class="cart-item" *ngFor="let item of itens; let i = index">
+        <div>
+          <strong>{{ item.name }}</strong>
+          <p>R$ {{ item.price.toFixed(2) }} × {{ item.quantity }}</p>
+          <small *ngIf="item.removed?.length">Sem: {{ item.removed.join(', ') }}</small>
+          <div class="d-flex gap-2 mt-2">
+            <button type="button" class="btn btn-outline-secondary btn-sm" (click)="diminuirQuantidade(i)">−</button>
+            <span>{{ item.quantity }}</span>
+            <button type="button" class="btn btn-outline-secondary btn-sm" (click)="aumentarQuantidade(i)">+</button>
+          </div>
+        </div>
+        <button type="button" class="btn btn-danger" (click)="removerProduto(i)">Remover</button>
+      </div>
+    </div>
+
+    <div class="cart-footer">
+      <strong>Total: R$ {{ calcularTotal().toFixed(2) }}</strong>
+      <button type="button" class="confirm-btn w-100 mt-3" (click)="finalizarPedido()">Finalizar pedido</button>
+    </div>
+  </div>
+</div>

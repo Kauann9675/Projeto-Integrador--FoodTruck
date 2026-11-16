@@ -1,0 +1,24 @@
+<div class="orders-modal" *ngIf="foodTruck.ordersOpen()">
+  <div class="orders-content">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h2>Meus pedidos</h2>
+      <button type="button" class="close-btn" aria-label="Fechar" (click)="closeOrders()">×</button>
+    </div>
+
+    <label for="filtro-pedidos" class="form-label">Ordenar por</label>
+    <select id="filtro-pedidos" class="form-select mb-3" [(ngModel)]="filtro">
+      <option value="recent">Mais recentes</option>
+      <option value="az">Nome (A-Z)</option>
+      <option value="payment">Forma de pagamento</option>
+    </select>
+
+    <p *ngIf="orders.length === 0">Ainda não há pedidos finalizados.</p>
+    <div class="order-card" *ngFor="let order of orders">
+      <h4>{{ order.customer }}</h4>
+      <div>CPF: {{ order.cpf }}</div>
+      <div>{{ order.date }} • {{ order.time }}</div>
+      <div>Pagamento: {{ order.payment }} • Consumo: {{ order.consumption }}</div>
+      <strong>R$ {{ order.total.toFixed(2) }}</strong>
+    </div>
+  </div>
+</div>

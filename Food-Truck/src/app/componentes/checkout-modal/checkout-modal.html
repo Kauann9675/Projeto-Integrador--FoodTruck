@@ -1,0 +1,48 @@
+<div class="checkout-modal" *ngIf="foodTruck.checkoutOpen()">
+  <div class="checkout-content">
+    <div class="d-flex justify-content-between align-items-center">
+      <h2>Finalizar Pedido</h2> 
+      <button type="button" class="close-btn" aria-label="Fechar" (click)="fechar()">×</button>
+    </div>
+
+    <div class="mb-3">
+      <label for="nome" class="form-label">Nome</label>
+      <input #campoNome="ngModel" type="text" id="nome" class="form-control" placeholder="Digite seu nome" [(ngModel)]="customer" required>
+      @if (campoNome.invalid && campoNome.touched) {
+                <div>Campo Nome deve ser preenchido!!</div>
+            }
+    </div>
+
+    <div class="mb-3">
+      <label for="cpf" class="form-label">CPF</label>
+      <input #campoCpf="ngModel" type="text" id="cpf" class="form-control" placeholder="Digite seu CPF" minlength="11" maxlength="14" [(ngModel)]="cpf" required>
+      @if (campoCpf.invalid && campoCpf.touched) {
+                <div>Campo Cpf deve ser preenchido!!</div>
+            }
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Tipo de consumo</label>
+      <div class="d-flex gap-2">
+        <button type="button" class="btn option-btn flex-fill" [class.active]="consumption === 'Local'" (click)="consumption = 'Local'">Local</button>
+        <button type="button" class="btn option-btn flex-fill" [class.active]="consumption === 'Para Viagem'" (click)="consumption = 'Para Viagem'">Para Viagem</button>
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label class="form-label">Forma de pagamento</label>
+      <div class="d-flex flex-wrap gap-2">
+        <button type="button" class="btn option-btn" [class.active]="payment === 'Cartão'" (click)="payment = 'Cartão'">Cartão</button>
+        <button type="button" class="btn option-btn" [class.active]="payment === 'PIX'" (click)="payment = 'PIX'">PIX</button>
+        <button type="button" class="btn option-btn" [class.active]="payment === 'Dinheiro'" (click)="payment = 'Dinheiro'">Dinheiro</button>
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-between mb-3">
+      <strong>Total:</strong>
+      <strong>R$ {{ getTotal().toFixed(2) }}</strong>
+    </div>
+
+    <button type="button" class="btn confirm-btn w-100" (click)="confirmarPedido()">Confirmar Pedido</button>
+  </div>
+</div>

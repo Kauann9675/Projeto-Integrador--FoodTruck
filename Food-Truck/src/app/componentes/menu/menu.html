@@ -1,0 +1,52 @@
+<section class="menu-admin container-fluid mb-4">
+  <div class="d-flex flex-wrap justify-content-between align-items-center gap-2 mb-3">
+    <div>
+      <h2 class="mb-1">Cardápio</h2>
+      <p class="text-muted mb-0">Gerencie os produtos exibidos para os clientes.</p>
+    </div>
+    <button type="button" class="btn btn-dark" (click)="novoProduto()">+ Novo produto</button>
+  </div>
+
+  <form *ngIf="foodTruck.productFormOpen()" class="product-form card card-body mb-4" (ngSubmit)="salvarProduto()">
+    <h3 class="h5">{{ foodTruck.editingProduct() ? 'Editar produto' : 'Cadastrar novo produto' }}</h3>
+    <div class="row g-3">
+      <div class="col-12 col-md-6">
+        <label class="form-label" for="produto-nome">Nome do produto</label>
+        <input id="produto-nome" class="form-control" name="name" [(ngModel)]="form.name" required>
+      </div>
+      <div class="col-12 col-md-3">
+        <label class="form-label" for="produto-preco">Preço (R$)</label>
+        <input id="produto-preco" class="form-control" type="number" name="price" min="0" step="0.01" [(ngModel)]="form.price" required>
+      </div>
+      <div class="col-12 col-md-3">
+        <label class="form-label" for="produto-imagem">URL da imagem</label>
+        <input id="produto-imagem" class="form-control" type="url" name="image" [(ngModel)]="form.image" placeholder="https://...">
+      </div>
+      <div class="col-12">
+        <label class="form-label" for="produto-descricao">Descrição</label>
+        <textarea id="produto-descricao" class="form-control" name="description" rows="2" [(ngModel)]="form.description"></textarea>
+      </div>
+      <div class="col-12">
+        <label class="form-label" for="produto-ingredientes">Ingredientes</label>
+        <input id="produto-ingredientes" class="form-control" name="ingredients" [(ngModel)]="form.ingredients" placeholder="Ex.: pão, carne, queijo, alface">
+        <small class="text-muted">Separe os ingredientes por vírgula.</small>
+      </div>
+    </div>
+    <div class="d-flex flex-wrap gap-2 mt-3">
+      <button type="submit" class="btn btn-success">Salvar produto</button>
+      <button type="button" class="btn btn-outline-secondary" (click)="cancelarEdicao()">Cancelar</button>
+    </div>
+  </form>
+</section>
+
+<div class="row g-4">
+  <div class="col-12 col-md-6 col-lg-4" *ngFor="let produto of foodTruck.products()">
+    <app-product-card [produto]="produto"
+      (editar)="editarProduto($event)"
+      (excluir)="excluirProduto($event)">
+    </app-product-card>
+  </div>
+  <div class="col-12" *ngIf="foodTruck.products().length === 0">
+    <p class="text-center text-muted py-4">Nenhum produto cadastrado. Clique em “Novo produto” para começar.</p>
+  </div>
+</div>
